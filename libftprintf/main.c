@@ -19,10 +19,10 @@ int     ft_printf(const char *str, ...);
 
 int main(void)
 {
-    char *s = "the booty man";
-    char ch = 'c';
-    printf("%X %s %c\n", INT_MAX, s, ch);
-    // int r2 = printf("%d %s %c\n", INT_MIN, s, ch);
-    // if (r1 - r2)
-    //     printf("booty\n");
+    int r2 = printf("%x\n", 1125);
+    int r1 = ft_printf("%x\n", 1125);
+
+    if (r2 - r1)
+        printf("hey they\n");
+   
 }
