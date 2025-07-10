@@ -1,0 +1,19 @@
+#include <stdio.h>
+#include "libft.h"
+
+void lstdel(void *mem)
+{
+	free(mem);
+}
+
+int	main(void)
+{
+	t_list *l = ft_lstnew(ft_strdup("nyancat"));
+
+	t_list *n = ft_lstnew(ft_strdup("OK"));
+	ft_lstadd_back(&l, n);
+	if (l->next == n && !strcmp(l->next->content, "OK"))
+		printf("success");
+	ft_lstclear(&l, lstdel);
+	return (0);
+}

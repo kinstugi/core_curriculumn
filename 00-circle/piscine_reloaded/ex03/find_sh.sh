@@ -1,0 +1,1 @@
+find . -type f -regex ".*\.sh" -printf "%f\n" | sed 's/\.[^.]*$//'
