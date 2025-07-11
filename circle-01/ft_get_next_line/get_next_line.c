@@ -25,6 +25,20 @@ void	init_variable(t_vec **vec, char **res)
 		(*vec)->arr = malloc(sizeof(char) * (*vec)->capacity);
 }
 
+void	finalize_and_cleanup(t_vec **vec, char **res)
+{
+	if ((*vec)->size)
+	{
+		*res = malloc(sizeof(char) * ((*vec)->size + 1));
+		while (!(*res))
+			*res = malloc(sizeof(char) * ((*vec)->size + 1));
+		copy_arr((*vec)->arr, *res, (*vec)->size);
+		res[(*vec)->size] = 0;
+	}
+	free((*vec)->arr);
+	free(*vec);
+}
+
 char	*get_next_line(int fd)
 {
 	t_vec	*vec;
@@ -32,15 +46,7 @@ char	*get_next_line(int fd)
 	int		read_count;
 	char	*res;
 
-	res = NULL;
-	vec = malloc(sizeof(t_vec)); // guard malloc
-	while (!vec)
-		vec = malloc(sizeof(t_vec));
-	vec->capacity = 20;
-	vec->size = 0;
-	vec->arr = malloc(sizeof(char) * vec->capacity);
-	if (!vec->arr)
-		return (NULL);
+	init_variable(&vec, &res);
 	read_count = read(fd, buffer, BUFF_SIZE);
 	while (read_count)
 	{
@@ -49,15 +55,6 @@ char	*get_next_line(int fd)
 			break ;
 		read_count = read(fd, buffer, BUFF_SIZE);
 	}
-	if (vec->size)
-	{
-		res = malloc(sizeof(char) * (vec->size + 1));
-		while (!res)
-			res = malloc(sizeof(char) * (vec->size + 1));
-		copy_arr(vec->arr, res, vec->size);
-		res[vec->size] = 0;
-	}
-	free(vec->arr);
-	free(vec);
+	finalize_and_cleanup(&vec, &res);
 	return (res);
 }
