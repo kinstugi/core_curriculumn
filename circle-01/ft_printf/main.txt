@@ -10,19 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <limits.h>
+#include <stdio.h>
 
-void    ft_putchar(const char ch);
-int     add_nums(int start, ...);
-int     ft_printf(const char *str, ...);
+int	ft_printf(const char *str, ...);
 
-int main(void)
+int	main(void)
 {
-    int r2 = printf("%x\n", 1125);
-    int r1 = ft_printf("%x\n", 1125);
+	int	age;
 
-    if (r2 - r1)
-        printf("hey they\n");
-   
+	age = -178;
+	printf("%x\n", age);
+	ft_printf("%x\n", age);
+	return (0);
 }

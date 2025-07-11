@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: baffour <baffour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/16 18:30:05 by baffour           #+#    #+#             */
-/*   Updated: 2025/06/16 18:31:56 by baffour          ###   ########.fr       */
+/*   Created: 2025/06/16 16:20:27 by baffour           #+#    #+#             */
+/*   Updated: 2025/06/16 16:28:39 by baffour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void    ft_putchar(const char ch);
+// this is where i do my tests
+#include <stdarg.h>
 
-int     ft_putstr(const char *str)
+int	add_nums(int start, ...)
 {
-    int i;
+	va_list	nums;
+	int		total;
+	int		curr;
 
-    i = -1;
-
-    while(str[++i])
-        ft_putchar(str[i]);
-    return i;
+	va_start(nums, start);
+	total = start;
+	do
+	{
+		curr = va_arg(nums, int);
+		total += curr;
+	} while (curr != 0);
+	va_end(nums);
+	return (total);
 }
