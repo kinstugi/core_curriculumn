@@ -12,6 +12,17 @@
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
+# define BUFF_SIZE 1
+# include <stdlib.h>
+# include <unistd.h>
 
-char	*get_next_line(int fd);
+typedef struct s_vec
+{
+	unsigned int	capacity;
+	unsigned int	size;
+	char			*arr;
+}					t_vec;
+char				*get_next_line(int fd);
+void				copy_arr(char *src, char *dst, int old_cap);
+int					push_char(t_vec *vec, char ch);
 #endif
