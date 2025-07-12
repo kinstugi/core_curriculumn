@@ -24,16 +24,16 @@ void	copy_arr(char *src, char *dst, int old_cap)
 int	resize_arr(t_vec *vec)
 {
 	int		old_capacity;
-	char	*newArr;
+	char	*new_arr;
 
 	old_capacity = vec->capacity;
 	vec->capacity *= 2;
-	newArr = malloc(sizeof(char) * (vec->capacity));
-	if (!newArr)
+	new_arr = malloc(sizeof(char) * (vec->capacity));
+	if (!new_arr)
 		return (0);
-	copy_arr(vec->arr, newArr, old_capacity);
+	copy_arr(vec->arr, new_arr, old_capacity);
 	free(vec->arr);
-	vec->arr = newArr;
+	vec->arr = new_arr;
 	return (1);
 }
 
@@ -43,6 +43,7 @@ int	push_char(t_vec *vec, char ch)
 	{
 		vec->arr[vec->size] = ch;
 		vec->size += 1;
+		return (1);
 	}
-	return (vec->size);
+	return (0);
 }

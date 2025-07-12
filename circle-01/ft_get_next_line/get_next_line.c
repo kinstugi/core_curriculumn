@@ -33,7 +33,7 @@ void	finalize_and_cleanup(t_vec **vec, char **res)
 		while (!(*res))
 			*res = malloc(sizeof(char) * ((*vec)->size + 1));
 		copy_arr((*vec)->arr, *res, (*vec)->size);
-		res[(*vec)->size] = 0;
+		(*res)[(*vec)->size] = 0;
 	}
 	free((*vec)->arr);
 	free(*vec);
