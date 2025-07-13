@@ -39,22 +39,45 @@ void	finalize_and_cleanup(t_vec **vec, char **res)
 	free(*vec);
 }
 
+int	add_and_get_ans(t_vec **vec, char **res, char *buffer, int *counter)
+{
+	push_char(*vec, buffer[*counter]);
+	if (buffer[*counter] == '\n')
+	{
+		*counter = (*counter + 1) % BUFFER_SIZE;
+		finalize_and_cleanup(vec, res);
+		return (1);
+	}
+	return (0);
+}
+
 char	*get_next_line(int fd)
 {
-	t_vec	*vec;
-	char	buffer[BUFF_SIZE];
-	int		read_count;
-	char	*res;
+	char		*res;
+	static char	buffer[BUFFER_SIZE];
+	static int	counter = 0;
+	t_vec		*vec;
+	int			read_count;
 
+	if (fd < 0)
+		return (NULL);
 	init_variable(&vec, &res);
-	read_count = read(fd, buffer, BUFF_SIZE);
-	while (read_count)
+	while (counter)
 	{
-		push_char(vec, buffer[0]); // hand failure when we fail to push
-		if (buffer[0] == '\n')
-			break ;
-		read_count = read(fd, buffer, BUFF_SIZE);
+		if (add_and_get_ans(&vec, &res, buffer, &counter))
+			return (res);
+		counter = (counter + 1) % BUFFER_SIZE;
+	}
+	read_count = read(fd, buffer, BUFFER_SIZE);
+	while (read_count--)
+	{
+		if (add_and_get_ans(&vec, &res, buffer, &counter))
+			return (res);
+		counter = (counter + 1) % BUFFER_SIZE;
+		if (!counter)
+			read_count = read(fd, buffer, BUFFER_SIZE);
 	}
 	finalize_and_cleanup(&vec, &res);
+	counter = 0;
 	return (res);
 }
