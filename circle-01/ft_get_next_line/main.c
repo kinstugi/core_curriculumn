@@ -8,7 +8,7 @@ int main(void)
     int fd = open("booty.txt", O_RDWR);
     if (fd == -1)
     return 0;
-    res = get_next_line(100);
+    res = get_next_line(fd);
     while(res)
     {
         printf("%s", res);

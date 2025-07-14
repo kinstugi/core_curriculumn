@@ -57,19 +57,19 @@ char	*get_next_line(int fd)
 	static char	buffer[BUFFER_SIZE];
 	static int	counter = 0;
 	t_vec		*vec;
-	int			read_count;
+	static int	read_count;
 
 	if (fd < 0)
 		return (NULL);
 	init_variable(&vec, &res);
-	while (counter)
+	while (counter < read_count)
 	{
 		if (add_and_get_ans(&vec, &res, buffer, &counter))
 			return (res);
 		counter = (counter + 1) % BUFFER_SIZE;
 	}
 	read_count = read(fd, buffer, BUFFER_SIZE);
-	while (read_count--)
+	while (counter < read_count)
 	{
 		if (add_and_get_ans(&vec, &res, buffer, &counter))
 			return (res);
