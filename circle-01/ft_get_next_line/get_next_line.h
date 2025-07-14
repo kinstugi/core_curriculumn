@@ -14,6 +14,7 @@
 # define GET_NEXT_LINE_H
 # include <stdlib.h>
 # include <unistd.h>
+# define VEC_CAPACITY 20
 
 typedef struct s_vec
 {
@@ -24,6 +25,7 @@ typedef struct s_vec
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
+
 char				*get_next_line(int fd);
 void				copy_arr(char *src, char *dst, int old_cap);
 int					push_char(t_vec *vec, char ch);

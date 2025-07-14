@@ -19,7 +19,7 @@ void	init_variable(t_vec **vec, char **res)
 	while (!(*vec))
 		*vec = malloc(sizeof(t_vec));
 	(*vec)->size = 0;
-	(*vec)->capacity = 20;
+	(*vec)->capacity = VEC_CAPACITY;
 	(*vec)->arr = malloc(sizeof(char) * (*vec)->capacity);
 	while (!(*vec)->arr)
 		(*vec)->arr = malloc(sizeof(char) * (*vec)->capacity);
@@ -62,7 +62,7 @@ char	*get_next_line(int fd)
 	if (fd < 0)
 		return (NULL);
 	init_variable(&vec, &res);
-	while (counter < read_count)
+	while (counter && counter < read_count)
 	{
 		if (add_and_get_ans(&vec, &res, buffer, &counter))
 			return (res);
