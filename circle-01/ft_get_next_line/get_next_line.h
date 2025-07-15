@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 # include <stdlib.h>
 # include <unistd.h>
-# define VEC_CAPACITY 20
+# define VEC_CAPACITY 1001
 
 typedef struct s_vec
 {
@@ -23,7 +23,7 @@ typedef struct s_vec
 	char			*arr;
 }					t_vec;
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
+#  define BUFFER_SIZE 10
 # endif
 
 char				*get_next_line(int fd);

@@ -69,7 +69,7 @@ char	*get_next_line(int fd)
 		counter = (counter + 1) % BUFFER_SIZE;
 	}
 	read_count = read(fd, buffer, BUFFER_SIZE);
-	while (counter < read_count)
+	while (read_count && counter < read_count)
 	{
 		if (add_and_get_ans(&vec, &res, buffer, &counter))
 			return (res);
