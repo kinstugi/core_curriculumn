@@ -12,21 +12,21 @@
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
+# define VECTOR_CAPACITY 10000
 # include <stdlib.h>
 # include <unistd.h>
-# define VEC_CAPACITY 1001
 
-typedef struct s_vec
+typedef struct s_vector
 {
-	unsigned int	capacity;
-	unsigned int	size;
-	char			*arr;
-}					t_vec;
+	int		size;
+	int		capacity;
+	char	*arr;
+}			t_vector;
+
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 20
 # endif
 
-char				*get_next_line(int fd);
-void				copy_arr(char *src, char *dst, int old_cap);
-int					push_char(t_vec *vec, char ch);
+char		*get_next_line(int fd);
+int			push_back(t_vector *vec, char ch);
 #endif

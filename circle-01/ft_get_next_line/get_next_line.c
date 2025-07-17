@@ -12,72 +12,70 @@
 
 #include "get_next_line.h"
 
-void	init_variable(t_vec **vec, char **res)
+char	*clear_and_return(t_vector **vec, char *buffer, int last_read_count)
 {
-	*res = NULL;
-	*vec = malloc(sizeof(t_vec));
-	while (!(*vec))
-		*vec = malloc(sizeof(t_vec));
-	(*vec)->size = 0;
-	(*vec)->capacity = VEC_CAPACITY;
-	(*vec)->arr = malloc(sizeof(char) * (*vec)->capacity);
-	while (!(*vec)->arr)
-		(*vec)->arr = malloc(sizeof(char) * (*vec)->capacity);
-}
+	char	*res;
+	int		i;
 
-void	finalize_and_cleanup(t_vec **vec, char **res)
-{
-	if ((*vec)->size)
+	res = NULL;
+	if ((*vec)->size > 0)
 	{
-		*res = malloc(sizeof(char) * ((*vec)->size + 1));
-		while (!(*res))
-			*res = malloc(sizeof(char) * ((*vec)->size + 1));
-		copy_arr((*vec)->arr, *res, (*vec)->size);
-		(*res)[(*vec)->size] = 0;
+		i = -1;
+		res = malloc(sizeof(char) * ((*vec)->size + 1));
+		while (!res)
+			res = malloc(sizeof(char) * ((*vec)->size + 1));
+		while (++i < (*vec)->size)
+			res[i] = (*vec)->arr[i];
+		res[i] = 0;
+	}
+	if (last_read_count == -1)
+	{
+		i = -1;
+		while (++i < BUFFER_SIZE)
+			buffer[i] = 0;
 	}
 	free((*vec)->arr);
-	free(*vec);
+	free((*vec));
+	return (res);
 }
 
-int	add_and_get_ans(t_vec **vec, char **res, char *buffer, int *counter)
+void	init_vector(t_vector **vec)
 {
-	push_char(*vec, buffer[*counter]);
-	if (buffer[*counter] == '\n')
-	{
-		*counter = (*counter + 1) % BUFFER_SIZE;
-		finalize_and_cleanup(vec, res);
-		return (1);
-	}
-	return (0);
+	*vec = malloc(sizeof(t_vector));
+	while (!(*vec))
+		*vec = malloc(sizeof(t_vector));
+	(*vec)->size = 0;
+	(*vec)->capacity = VECTOR_CAPACITY;
+	(*vec)->arr = (char *)malloc(sizeof(char) * ((*vec)->capacity));
+	while (!(*vec)->arr)
+		(*vec)->arr = (char *)malloc(sizeof(char) * ((*vec)->capacity));
 }
 
 char	*get_next_line(int fd)
 {
-	char		*res;
+	t_vector	*vec;
 	static char	buffer[BUFFER_SIZE];
+	static int	last_read_count = 0;
 	static int	counter = 0;
-	t_vec		*vec;
-	static int	read_count;
 
+	init_vector(&vec);
 	if (fd < 0)
-		return (NULL);
-	init_variable(&vec, &res);
-	while (counter && counter < read_count)
+		return (clear_and_return(&vec, buffer, last_read_count));
+	while (counter && counter < last_read_count)
 	{
-		if (add_and_get_ans(&vec, &res, buffer, &counter))
-			return (res);
-		counter = (counter + 1) % BUFFER_SIZE;
+		if (push_back(vec, buffer[counter++]) == '\n')
+			return (clear_and_return(&vec, buffer, last_read_count));
+		counter = (counter) % last_read_count;
 	}
-	read_count = read(fd, buffer, BUFFER_SIZE);
-	while (read_count && counter < read_count)
-	{
-		if (add_and_get_ans(&vec, &res, buffer, &counter))
-			return (res);
-		counter = (counter + 1) % BUFFER_SIZE;
-		if (!counter)
-			read_count = read(fd, buffer, BUFFER_SIZE);
-	}
-	finalize_and_cleanup(&vec, &res);
 	counter = 0;
-	return (res);
+	last_read_count = read(fd, buffer, BUFFER_SIZE);
+	while (last_read_count > 0 && counter < last_read_count)
+	{
+		if (push_back(vec, buffer[counter++]) == '\n')
+			return (clear_and_return(&vec, buffer, last_read_count));
+		counter = (counter) % last_read_count;
+		if (!counter)
+			last_read_count = read(fd, buffer, BUFFER_SIZE);
+	}
+	return (clear_and_return(&vec, buffer, last_read_count));
 }
