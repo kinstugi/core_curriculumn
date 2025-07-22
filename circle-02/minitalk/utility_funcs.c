@@ -78,3 +78,18 @@ char	*decode_msg(char *msg)
 	(void)msg;
 	return (0);
 }
+
+void	send_message(int recv, char *msg)
+{
+	int	i;
+
+	i = -1;
+	while (msg[++i])
+	{
+		if (msg[i] == '0')
+			kill(recv, SIGUSR1);
+		else
+			kill(recv, SIGUSR2);
+		usleep(10);
+	}
+}

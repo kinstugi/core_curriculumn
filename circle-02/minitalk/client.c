@@ -17,7 +17,6 @@ int	main(int ac, char **av)
 	int		server_pid;
 	int		pid;
 	char	*msg;
-	int		i;
 
 	if (ac == 3)
 	{
@@ -25,15 +24,7 @@ int	main(int ac, char **av)
 		server_pid = atoi(av[1]);
 		msg = encode_msg(av[2]);
 		printf("PID %d\n", pid);
-		i = -1;
-		while (msg[++i])
-		{
-			if (msg[i] == '0')
-				kill(server_pid, SIGUSR1);
-			else
-				kill(server_pid, SIGUSR2);
-			usleep(10);
-		}
+		send_message(server_pid, msg);
 		free(msg);
 	}
 	return (0);
