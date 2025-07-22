@@ -32,7 +32,7 @@ int	main(int ac, char **av)
 				kill(server_pid, SIGUSR1);
 			else
 				kill(server_pid, SIGUSR2);
-			usleep(50);
+			usleep(10);
 		}
 		free(msg);
 	}
