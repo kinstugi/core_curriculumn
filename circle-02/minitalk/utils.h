@@ -28,4 +28,5 @@ typedef struct s_vector
 char		*encode_msg(char *msg);
 int			push_back(t_vector *vec, char ch);
 void		send_message(int recv, char *msg);
+char		*ft_itoa(int n);
 #endif
