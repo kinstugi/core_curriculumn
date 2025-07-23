@@ -13,9 +13,7 @@
 #include "utils.h"
 
 // 0 is the current character, 1 is for the collected
-t_vector		packets[2];
-int				done = 0;
-int sender_id;
+t_data_packet	g_data;
 
 int	push_back(t_vector *vec, char ch)
 {
@@ -103,7 +101,7 @@ void	send_message(int recv, char *msg)
 			kill(recv, SIGUSR1);
 		else
 			kill(recv, SIGUSR2);
-		usleep(20);
+		usleep(50);
 	}
 	free(data);
 }
@@ -114,23 +112,23 @@ int	receive_mssage(char ch)
 	char	letter;
 
 	letter = 0;
-	if (push_back(&(packets[0]), ch) == 0) // might free mem
+	if (push_back(&(g_data.packets[0]), ch) == 0) //might free mem
 		return (0);
-	if (packets[0].size == 8)
+	if (g_data.packets[0].size == 8)
 	{
 		i = -1;
 		while (++i < 8)
-			letter = (letter * 2) + (packets[0].arr[i] - '0');
-		packets[0].size = 0;
+			letter = (letter * 2) + (g_data.packets[0].arr[i] - '0');
+		g_data.packets[0].size = 0;
 		if (letter == 29)
 		{
-			sender_id = get_sender_id(&(packets[1]));
-			packets[1].size = 0; // clearing it
+			g_data.sender_pid = get_sender_id(&(g_data.packets[1]));
+			g_data.packets[1].size = 0; //clearing it
 		}
 		else if (letter == 4)
-			done = 1;
+			g_data.done = 1;
 		else
-			push_back(&(packets[1]), letter);
+			push_back(&(g_data.packets[1]), letter);
 	}
 	return (letter);
 }

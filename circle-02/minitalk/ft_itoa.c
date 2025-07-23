@@ -34,10 +34,10 @@ int	get_len(long n)
 
 char	*ft_itoa(int n)
 {
-	int len;
-	char *res;
-	int neg;
-	long num;
+	int		len;
+	char	*res;
+	int		neg;
+	long	num;
 
 	neg = n < 0;
 	len = get_len(ft_abs(n)) + neg;

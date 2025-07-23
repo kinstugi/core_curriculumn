@@ -12,8 +12,7 @@
 
 #include "utils.h"
 
-extern t_vector	packets[2];
-extern int		done;
+extern t_data_packet	g_data;
 
 void	handler_usr1(int sig)
 {
@@ -31,12 +30,14 @@ void	init_packet(void)
 {
 	int	i;
 
+	g_data.done = 0;
+	g_data.sender_pid = -1;
 	i = -1;
 	while (++i < 2)
 	{
-		packets[i].size = 0;
-		packets[i].capacity = VECTOR_CAPACITY;
-		packets[i].arr = malloc(sizeof(char) * VECTOR_CAPACITY);
+		g_data.packets[i].size = 0;
+		g_data.packets[i].capacity = VECTOR_CAPACITY;
+		g_data.packets[i].arr = malloc(sizeof(char) * VECTOR_CAPACITY);
 	}
 }
 
@@ -49,13 +50,12 @@ int	main(void)
 	my_pid = getpid();
 	signal(SIGUSR1, handler_usr1);
 	signal(SIGUSR2, handler_usr2);
-	printf("PID %d\n", my_pid);
-	printf("Server is running ......\n");
-	while (done == 0)
+	printf("%d\n", my_pid);
+	while (g_data.done == 0)
 		i = -1;
-	while (packets[1].arr[++i])
-		write(1, &(packets[1].arr[i]), 1);
+	while (g_data.packets[1].arr[++i])
+		write(1, &(g_data.packets[1].arr[i]), 1);
 	write(1, "\n", 1);
-	free(packets[0].arr);
-	free(packets[1].arr);
+	free(g_data.packets[0].arr);
+	free(g_data.packets[1].arr);
 }
