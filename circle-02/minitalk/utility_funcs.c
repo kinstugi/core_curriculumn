@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utility_funcs.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kwaku <kwaku@student.42.fr>                #+#  +:+       +#+        */
+/*   By: baffour <baffour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-07-19 19:06:41 by kwaku             #+#    #+#             */
-/*   Updated: 2025-07-19 19:06:41 by kwaku            ###   ########.fr       */
+/*   Created: 2025/07/19 19:06:41 by kwaku             #+#    #+#             */
+/*   Updated: 2025/07/23 00:10:07 by baffour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,15 +81,18 @@ char	*decode_msg(char *msg)
 
 void	send_message(int recv, char *msg)
 {
-	int	i;
+	char	*data;
+	int		i;
 
+	data = encode_msg(msg);
 	i = -1;
-	while (msg[++i])
+	while (data[++i])
 	{
-		if (msg[i] == '0')
+		if (data[i] == '0')
 			kill(recv, SIGUSR1);
 		else
 			kill(recv, SIGUSR2);
 		usleep(10);
 	}
+	free(data);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kwaku <kwaku@student.42.fr>                #+#  +:+       +#+        */
+/*   By: baffour <baffour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-07-18 13:49:50 by kwaku             #+#    #+#             */
-/*   Updated: 2025-07-18 13:49:50 by kwaku            ###   ########.fr       */
+/*   Created: 2025/07/18 13:49:50 by kwaku             #+#    #+#             */
+/*   Updated: 2025/07/23 03:57:48 by baffour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ int	main(void)
 	printf("Server is running ......\n");
 	while (1)
 	{
-		if (packet.size == 88)
+		if (packet.size == (8 * 18))
 		{
 			i = -1;
-			while (++i < 88)
+			while (++i < (8 * 18))
 				write(1, &(packet.arr[i]), 1);
 			write(1, "\n", 1);
 			break ;
