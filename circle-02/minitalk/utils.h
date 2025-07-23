@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client_utils.h                                     :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: baffour <baffour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/20 08:37:39 by baffour           #+#    #+#             */
-/*   Updated: 2025/07/22 09:16:24 by baffour          ###   ########.fr       */
+/*   Updated: 2025/07/23 10:17:07 by baffour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,5 @@ char		*encode_msg(char *msg);
 int			push_back(t_vector *vec, char ch);
 void		send_message(int recv, char *msg);
 char		*ft_itoa(int n);
+int			receive_mssage(char ch);
 #endif

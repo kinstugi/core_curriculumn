@@ -6,24 +6,38 @@
 /*   By: baffour <baffour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 13:49:50 by kwaku             #+#    #+#             */
-/*   Updated: 2025/07/23 03:57:48 by baffour          ###   ########.fr       */
+/*   Updated: 2025/07/23 11:00:29 by baffour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-t_vector	packet;
+extern t_vector	packets[2];
+extern int		done;
 
 void	handler_usr1(int sig)
 {
 	(void)sig;
-	push_back(&packet, '0');
+	receive_mssage('0');
 }
 
 void	handler_usr2(int sig)
 {
 	(void)sig;
-	push_back(&packet, '1');
+	receive_mssage('1');
+}
+
+void	init_packet(void)
+{
+	int	i;
+
+	i = -1;
+	while (++i < 2)
+	{
+		packets[i].size = 0;
+		packets[i].capacity = VECTOR_CAPACITY;
+		packets[i].arr = malloc(sizeof(char) * VECTOR_CAPACITY);
+	}
 }
 
 int	main(void)
@@ -31,24 +45,17 @@ int	main(void)
 	int	my_pid;
 	int	i;
 
-	packet.size = 0;
-	packet.capacity = VECTOR_CAPACITY;
-	packet.arr = malloc(sizeof(char) * packet.capacity);
+	init_packet();
 	my_pid = getpid();
 	signal(SIGUSR1, handler_usr1);
 	signal(SIGUSR2, handler_usr2);
 	printf("PID %d\n", my_pid);
 	printf("Server is running ......\n");
-	while (1)
-	{
-		if (packet.size == (8 * 18))
-		{
-			i = -1;
-			while (++i < (8 * 18))
-				write(1, &(packet.arr[i]), 1);
-			write(1, "\n", 1);
-			break ;
-		}
-	}
-	free(packet.arr);
+	while (done == 0)
+		i = -1;
+	while (packets[1].arr[++i])
+		write(1, &(packets[1].arr[i]), 1);
+	write(1, "\n", 1);
+	free(packets[0].arr);
+	free(packets[1].arr);
 }

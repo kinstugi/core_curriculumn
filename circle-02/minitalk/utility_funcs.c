@@ -6,11 +6,16 @@
 /*   By: baffour <baffour@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 19:06:41 by kwaku             #+#    #+#             */
-/*   Updated: 2025/07/23 00:10:07 by baffour          ###   ########.fr       */
+/*   Updated: 2025/07/23 11:52:51 by baffour          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
+
+// 0 is the current character, 1 is for the collected
+t_vector		packets[2];
+int				done = 0;
+int sender_id;
 
 int	push_back(t_vector *vec, char ch)
 {
@@ -73,10 +78,16 @@ char	*encode_msg(char *msg)
 	return (res);
 }
 
-char	*decode_msg(char *msg)
+int	get_sender_id(t_vector *vec)
 {
-	(void)msg;
-	return (0);
+	int	res;
+	int	i;
+
+	res = 0;
+	i = -1;
+	while (++i < vec->size)
+		res = (res * 10) + (vec->arr[i] - '0');
+	return (res);
 }
 
 void	send_message(int recv, char *msg)
@@ -92,7 +103,34 @@ void	send_message(int recv, char *msg)
 			kill(recv, SIGUSR1);
 		else
 			kill(recv, SIGUSR2);
-		usleep(10);
+		usleep(20);
 	}
 	free(data);
+}
+
+int	receive_mssage(char ch)
+{
+	int		i;
+	char	letter;
+
+	letter = 0;
+	if (push_back(&(packets[0]), ch) == 0) // might free mem
+		return (0);
+	if (packets[0].size == 8)
+	{
+		i = -1;
+		while (++i < 8)
+			letter = (letter * 2) + (packets[0].arr[i] - '0');
+		packets[0].size = 0;
+		if (letter == 29)
+		{
+			sender_id = get_sender_id(&(packets[1]));
+			packets[1].size = 0; // clearing it
+		}
+		else if (letter == 4)
+			done = 1;
+		else
+			push_back(&(packets[1]), letter);
+	}
+	return (letter);
 }
