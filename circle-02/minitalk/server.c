@@ -26,7 +26,7 @@ void	handler_usr2(int sig)
 	receive_mssage('1');
 }
 
-void	init_packet(void)
+void	init_packet(int reset_flag)
 {
 	int	i;
 
@@ -36,8 +36,11 @@ void	init_packet(void)
 	while (++i < 2)
 	{
 		g_data.packets[i].size = 0;
-		g_data.packets[i].capacity = VECTOR_CAPACITY;
-		g_data.packets[i].arr = malloc(sizeof(char) * VECTOR_CAPACITY);
+		if (reset_flag == 0)
+		{
+			g_data.packets[i].capacity = VECTOR_CAPACITY;
+			g_data.packets[i].arr = malloc(sizeof(char) * VECTOR_CAPACITY);
+		}
 	}
 }
 
@@ -46,16 +49,23 @@ int	main(void)
 	int	my_pid;
 	int	i;
 
-	init_packet();
+	init_packet(0);
 	my_pid = getpid();
 	signal(SIGUSR1, handler_usr1);
 	signal(SIGUSR2, handler_usr2);
 	printf("%d\n", my_pid);
-	while (g_data.done == 0)
-		i = -1;
-	while (g_data.packets[1].arr[++i])
-		write(1, &(g_data.packets[1].arr[i]), 1);
-	write(1, "\n", 1);
+	while (1)
+	{
+		while (g_data.done == 0)
+			i = 0;
+		while (i < g_data.packets[1].size)
+		{
+			write(1, &(g_data.packets[1].arr[i]), 1);
+			i++;
+		}
+		write(1, "\n", 1);
+		init_packet(1);
+	}
 	free(g_data.packets[0].arr);
 	free(g_data.packets[1].arr);
 }

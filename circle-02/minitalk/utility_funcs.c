@@ -112,7 +112,7 @@ int	receive_mssage(char ch)
 	char	letter;
 
 	letter = 0;
-	if (push_back(&(g_data.packets[0]), ch) == 0) //might free mem
+	if (push_back(&(g_data.packets[0]), ch) == 0)
 		return (0);
 	if (g_data.packets[0].size == 8)
 	{
@@ -123,7 +123,7 @@ int	receive_mssage(char ch)
 		if (letter == 29)
 		{
 			g_data.sender_pid = get_sender_id(&(g_data.packets[1]));
-			g_data.packets[1].size = 0; //clearing it
+			g_data.packets[1].size = 0;
 		}
 		else if (letter == 4)
 			g_data.done = 1;
