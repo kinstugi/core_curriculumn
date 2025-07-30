@@ -53,7 +53,7 @@ int	main(void)
 	my_pid = getpid();
 	signal(SIGUSR1, handler_usr1);
 	signal(SIGUSR2, handler_usr2);
-	printf("%d\n", my_pid);
+	printf("__PID: %d\n", my_pid);
 	while (1)
 	{
 		while (g_data.done == 0)
