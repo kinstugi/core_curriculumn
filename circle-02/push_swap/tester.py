@@ -79,7 +79,7 @@ def verify(moves:list, init_arr: list):
 def solve(arr: list):
     moves = ['sa', 'sb', 'ss', 'pa', 'pb', 'ra', 'rb', 'rr', 'rra', 'rrb', 'rrr']
     q = deque([[move] for move in moves])
-    if not arr or verify([], arr):
+    if not arr or verify([], arr)[1]:
         return []
     dis = 1
     while q:
