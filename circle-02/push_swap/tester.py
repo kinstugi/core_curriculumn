@@ -1,5 +1,7 @@
 from collections import deque
 
+seen = set()
+
 def swap_first_two(arr: list):
     if len(arr) > 1:
         arr[0], arr[1] = arr[1], arr[0]
@@ -73,12 +75,17 @@ def verify(moves:list, init_arr: list):
             res = rotate_arr(s2, -1)
             res = rotate_arr(s1, -1) or res
             not_bad = not_bad and res
-    
-    return not_bad, s1 == sorted(init_arr)
+
+    hash = (tuple(s1), tuple(s2))
+    if hash in seen:
+        not_bad = False
+    else:
+        seen.add(hash)
+    return not_bad, s1 == sorted(init_arr), len(s1), len(s2)
 
 def solve(arr: list):
     moves = ['sa', 'sb', 'ss', 'pa', 'pb', 'ra', 'rb', 'rr', 'rra', 'rrb', 'rrr']
-    q = deque([[move] for move in moves])
+    q = deque([['sa'], ['ra'], ['pa'], ['rra']])
     if not arr or verify([], arr)[1]:
         return []
     dis = 1
@@ -95,14 +102,34 @@ def solve(arr: list):
             for move in moves:
                 if are_opposite(move, current_moveset[-1]):
                     continue
+                if (move in ['rr', 'rrr', 'ss']) and (ver_res[2] == 0 or ver_res[3] == 0):
+                    continue
+                if ver_res[2] == 0 and move in ['sa', 'ra', 'pa']:
+                    continue
+                if ver_res[3] == 0 and move in ['sb', 'rb', 'pb']:
+                    continue
                 current_moveset.append(move)
                 q.append(current_moveset[:])
                 current_moveset.pop()
         dis += 1
 
+def stack_sort(arr: list):
+    s1, s2 = deque(arr[:]), deque([])
+    cnt = 0
+    while s1:
+        temp = s1.popleft()
+        while s2 and s2[0] < temp:
+            num = s2.popleft()
+            s1.appendleft(num)
+            cnt += 1
+        s2.appendleft(temp)
+        cnt += 1
+    print(f" {cnt} moves")
+    return s2
+
 if __name__ == "__main__":
     # solve([2,1,3,6,5,8])
-    arr = [2, 1, 3, 6, 5, 8]
-    res = solve(arr)
+    arr = [42, 87, 12, 95, 6, 73, 29, 3]
     # res = verify(['pa', 'pa', 'rra', 'sa', 'rr', 'pb', 'pb'], arr)
+    res = solve(arr)
     print(res)
