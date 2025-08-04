@@ -39,4 +39,5 @@ typedef struct s_data
 	int		endian;
 }			t_data;
 void		rotate_shape(t_point *shape, int cnt, double angle);
+void		ft_place_pixel(t_data *img, int x, int y, int color);
 #endif

@@ -12,14 +12,6 @@
 
 #include "ft_fdf.h"
 
-void	ft_place_pixel(t_data *img, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = img->addr + (y * img->line_length + x * (img->bit_per_pixel / 8));
-	*(unsigned int *)dst = color;
-}
-
 void	draw_rect(t_data *img, int height, int width, int px, int py)
 {
 	int	w;
