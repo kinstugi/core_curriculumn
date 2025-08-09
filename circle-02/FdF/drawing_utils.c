@@ -12,7 +12,7 @@
 
 #include "ft_fdf.h"
 
-void	ft_place_pixel(t_data *img, int x, int y, int color)
+void	ft_place_pixel(t_frame *img, int x, int y, int color)
 {
 	char	*dst;
 
@@ -20,7 +20,7 @@ void	ft_place_pixel(t_data *img, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void	draw_rect(t_rect *rectangle, int px, int py)
+void	draw_rect(t_rect *rectangle, int px, int py, t_frame *frame)
 {
 	int	w;
 	int	h;
@@ -31,6 +31,7 @@ void	draw_rect(t_rect *rectangle, int px, int py)
 		w = -1;
 		while (++w < rectangle->width)
 		{
+			ft_place_pixel(frame, px + rectangle->width, py + rectangle->height, rectangle->color);
 		}
 	}
 }

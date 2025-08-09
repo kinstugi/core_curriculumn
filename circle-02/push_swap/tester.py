@@ -129,7 +129,7 @@ def stack_sort(arr: list):
 
 if __name__ == "__main__":
     # solve([2,1,3,6,5,8])
-    arr = [42, 87, 12, 95, 6, 73, 29, 3]
-    # res = verify(['pa', 'pa', 'rra', 'sa', 'rr', 'pb', 'pb'], arr)
+    arr = [5,2,3,1,-5,6]
+    # res = verify(['sa', 'ra', 'pa', 'rra', 'sa', 'rra', 'rra', 'sa', 'pb', 'rra'], arr)
     res = solve(arr)
     print(res)

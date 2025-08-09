@@ -5,39 +5,21 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kwaku <kwaku@student.42.fr>                #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-08-03 10:15:37 by kwaku             #+#    #+#             */
-/*   Updated: 2025-08-03 10:15:37 by kwaku            ###   ########.fr       */
+/*   Created: 2025-08-09 07:53:37 by kwaku             #+#    #+#             */
+/*   Updated: 2025-08-09 07:53:37 by kwaku            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_fdf.h"
+#include "so_long.h"
 
-void	draw_rect(t_frame *img, int height, int width, int px, int py)
-{
-	int	w;
-	int	h;
-
-	h = -1;
-	while (++h < height)
-	{
-		w = -1;
-		while (++w < width)
-			ft_place_pixel(img, px + w, py + h, BLUE);
-	}
-}
-
-int	main(void)
+int	main(int ac, char **av)
 {
 	void	*mlx;
-	t_frame	frame;
-	void	*m_win;
+	void	*mlx_window;
 
+	(void)ac;
+	(void)av;
 	mlx = mlx_init();
-	m_win = mlx_new_window(mlx, 800, 600, "the booty man TV");
-	frame.img = mlx_new_image(mlx, 800, 600);
-	frame.addr = mlx_get_data_addr(frame.img, &frame.bit_per_pixel, &frame.line_length,
-			&frame.endian);
-	draw_rect(&frame, 150, 100, 50, 5);
-	mlx_put_image_to_window(mlx, m_win, frame.img, 0, 0);
+	mlx_window = mlx_new_window(mlx, 800, 600, "So Long");
 	mlx_loop(mlx);
 }

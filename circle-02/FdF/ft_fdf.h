@@ -30,14 +30,14 @@ typedef struct s_rect
 	t_point	*points;
 }			t_rect;
 
-typedef struct s_data
+typedef struct s_frame
 {
 	void	*img;
 	char	*addr;
 	int		bit_per_pixel;
 	int		line_length;
 	int		endian;
-}			t_data;
+}			t_frame;
 void		rotate_shape(t_point *shape, int cnt, double angle);
-void		ft_place_pixel(t_data *img, int x, int y, int color);
+void		ft_place_pixel(t_frame *img, int x, int y, int color);
 #endif
