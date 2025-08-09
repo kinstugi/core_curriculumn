@@ -1,34 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
+/*   drawing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kwaku <kwaku@student.42.fr>                #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-08-09 07:54:17 by kwaku             #+#    #+#             */
-/*   Updated: 2025-08-09 07:54:17 by kwaku            ###   ########.fr       */
+/*   Created: 2025-08-09 18:29:03 by kwaku             #+#    #+#             */
+/*   Updated: 2025-08-09 18:29:03 by kwaku            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG_H
-# define SO_LONG_H
-# include "ft_colors.h"
-# include <mlx.h>
+#include "so_long.h"
 
-typedef struct s_frame
+void	my_mlx_pixel_put(t_frame *data, int x, int y, int color)
 {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}			t_frame;
+	char	*dst;
 
-typedef struct s_game
-{
-	void	*mlx;
-	void	*window;
-}			t_game;
-
-void		my_mlx_pixel_put(t_frame *data, int x, int y, int color);
-#endif
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	*(unsigned int *)dst = color;
+}

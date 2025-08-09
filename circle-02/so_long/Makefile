@@ -1,5 +1,6 @@
 NAME = so_long
-SRCS = main.c
+SRCS = 	main.c \
+		drawing_utils.c
 OBJS = $(SRCS:.c=.o)
 
 CFLAGS = -Wall -Wextra -Werror -g

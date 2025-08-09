@@ -12,14 +12,17 @@
 
 #include "so_long.h"
 
-int	main(int ac, char **av)
+int	main(void)
 {
-	void	*mlx;
-	void	*mlx_window;
+	t_game		game;
+	t_frame		frame;
+	const int	s_width = 800;
+	const int	s_height = 600;
 
-	(void)ac;
-	(void)av;
-	mlx = mlx_init();
-	mlx_window = mlx_new_window(mlx, 800, 600, "So Long");
-	mlx_loop(mlx);
+	game.mlx = mlx_init();
+	game.window = mlx_new_window(game.mlx, s_width, s_height, "so long");
+	frame.img = mlx_new_image(game.mlx, s_width, s_height);
+	frame.addr = mlx_get_data_addr(frame.img, &frame.bits_per_pixel, &frame.line_length, &frame.endian);
+	mlx_put_image_to_window(game.mlx, game.window, frame.img, 0, 0);
+	mlx_loop(game.mlx);
 }
