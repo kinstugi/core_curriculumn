@@ -38,8 +38,10 @@ typedef struct s_rect
 	int		px;
 	int		py;
 	int		color;
+	int		has_border;
+	int		border_color;
 }			t_rect;
 
 void		my_mlx_pixel_put(t_frame *data, int x, int y, int color);
-void		draw_rect(t_game *game, t_frame *frame, t_rect *rect);
+void		draw_rect(t_frame *frame, t_rect *rect);
 #endif

@@ -36,6 +36,8 @@ int	main(void)
 	wall.width = 50;
 	wall.px = 5;
 	wall.py = 5;
+	wall.has_border = 1;
+	wall.border_color = GREEN;
 	// end definition for one rectangle
 	game.mlx = mlx_init();
 	game.window = mlx_new_window(game.mlx, s_width, s_height, "so long");
@@ -43,7 +45,7 @@ int	main(void)
 	mlx_hook(game.window, 2, 1L << 0, close_game, &game);
 	frame.addr = mlx_get_data_addr(frame.img, &frame.bits_per_pixel,
 			&frame.line_length, &frame.endian);
-	draw_rect(&game, &frame, &wall);
+	draw_rect(&frame, &wall);
 	mlx_put_image_to_window(game.mlx, game.window, frame.img, 0, 0);
 	mlx_loop(game.mlx);
 }

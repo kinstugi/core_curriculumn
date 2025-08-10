@@ -20,17 +20,24 @@ void	my_mlx_pixel_put(t_frame *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void	draw_rect(t_game *game, t_frame *frame, t_rect *rect)
+void	draw_rect(t_frame *frame, t_rect *rect)
 {
 	int	w;
 	int	h;
 
-	(void)game;
 	h = -1;
 	while (++h < rect->height)
 	{
 		w = -1;
 		while (++w < rect->width)
-			my_mlx_pixel_put(frame, w + rect->px, h + rect->py, rect->color);
+		{
+			if (rect->has_border && (h == 0 || h == rect->height - 1 || w == 0
+					|| w == rect->width - 1))
+				my_mlx_pixel_put(frame, rect->px + w, rect->py + h,
+					rect->border_color);
+			else
+				my_mlx_pixel_put(frame, rect->px + w, rect->py + h,
+					rect->color);
+		}
 	}
 }
