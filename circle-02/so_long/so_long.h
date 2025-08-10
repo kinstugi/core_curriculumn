@@ -14,6 +14,7 @@
 # define SO_LONG_H
 # include "ft_colors.h"
 # include <mlx.h>
+# include <stdio.h>
 
 typedef struct s_frame
 {
@@ -30,5 +31,15 @@ typedef struct s_game
 	void	*window;
 }			t_game;
 
+typedef struct s_rect
+{
+	int		width;
+	int		height;
+	int		px;
+	int		py;
+	int		color;
+}			t_rect;
+
 void		my_mlx_pixel_put(t_frame *data, int x, int y, int color);
+void		draw_rect(t_game *game, t_frame *frame, t_rect *rect);
 #endif
