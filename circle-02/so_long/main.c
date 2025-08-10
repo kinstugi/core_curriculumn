@@ -17,7 +17,7 @@ int	close_game(int keycode, t_game *game)
 	if (keycode == 65307)
 	{
 		mlx_destroy_window(game->mlx, game->window);
-		return 1;
+		return (1);
 	}
 	return (0);
 }
@@ -31,7 +31,7 @@ int	main(void)
 	const int	s_height = 600;
 
 	// definition for one rectangle
-	wall.color = CYAN;
+	wall.color = MAGENTA;
 	wall.height = 50;
 	wall.width = 50;
 	wall.px = 5;
