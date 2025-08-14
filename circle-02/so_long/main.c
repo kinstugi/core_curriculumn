@@ -12,13 +12,18 @@
 
 #include "so_long.h"
 
-int	close_game(int keycode, t_game *game)
+int	handle_keypress(int keycode, t_game *game)
 {
 	if (keycode == 65307)
-	{
 		mlx_destroy_window(game->mlx, game->window);
-		return (1);
-	}
+	else if (keycode == 97)
+		printf("move player left\n");
+	else if (keycode == 100)
+		printf("move player right\n");
+	else if (keycode == 119)
+		printf("move player up\n");
+	else if (keycode == 115)
+		printf("move player down\n");
 	return (0);
 }
 
@@ -26,26 +31,15 @@ int	main(void)
 {
 	t_game		game;
 	t_frame		frame;
-	t_rect		wall;
 	const int	s_width = 800;
 	const int	s_height = 600;
 
-	// definition for one rectangle
-	wall.color = MAGENTA;
-	wall.height = 50;
-	wall.width = 50;
-	wall.px = 5;
-	wall.py = 5;
-	wall.has_border = 1;
-	wall.border_color = GREEN;
-	// end definition for one rectangle
 	game.mlx = mlx_init();
 	game.window = mlx_new_window(game.mlx, s_width, s_height, "so long");
 	frame.img = mlx_new_image(game.mlx, s_width, s_height);
-	mlx_hook(game.window, 2, 1L << 0, close_game, &game);
+	mlx_hook(game.window, 2, 1L << 0, handle_keypress, &game);
 	frame.addr = mlx_get_data_addr(frame.img, &frame.bits_per_pixel,
 			&frame.line_length, &frame.endian);
-	draw_rect(&frame, &wall);
 	mlx_put_image_to_window(game.mlx, game.window, frame.img, 0, 0);
 	mlx_loop(game.mlx);
 }
