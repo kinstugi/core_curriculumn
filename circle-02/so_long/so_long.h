@@ -42,6 +42,11 @@ typedef struct s_rect
 	int		border_color;
 }			t_rect;
 
+typedef struct s_game_state
+{
+	t_game	*game;
+	t_rect	*player;
+}			t_game_state;
 void		my_mlx_pixel_put(t_frame *data, int x, int y, int color);
 void		draw_rect(t_frame *frame, t_rect *rect);
 #endif
